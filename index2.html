@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayush Raghuwanshi</title>
+
+    <style>
+        :root{
+            --bg:#000;
+            --panel:#1a1a1a;
+            --text:#e0e0e0;
+            --accent:#00ff7f;
+        }
+        body.recruiter{
+            --bg:#fff;
+            --panel:#f2f2f2;
+            --text:#111;
+            --accent:#222;
+        }
+
+        /* Base */
+        *{margin:0;padding:0;box-sizing:border-box;}
+        html{scroll-behavior:smooth;}
+        body{
+            background:var(--bg);
+            color:var(--text);
+            font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+            overflow-x:hidden;
+        }
+
+        /* ================= FULL PAGE SMOKE INTRO ================= */
+        #intro-smoke{
+            position:fixed;
+            inset:-25%;
+            z-index:999;
+            pointer-events:none;
+            filter:blur(45px);
+            background:
+                    radial-gradient(circle at center,
+                    rgba(255,255,255,0.45) 0%,
+                    rgba(255,255,255,0.35) 25%,
+                    rgba(255,255,255,0.18) 45%,
+                    rgba(255,255,255,0.05) 65%,
+                    transparent 80%);
+            animation:smokeLift 4.5s ease forwards;
+        }
+
+        /* Smoke motion */
+        @keyframes smokeLift{
+            0%{
+                opacity:1;
+                transform:translateY(0) scale(1.05);
+            }
+            65%{
+                opacity:1;
+            }
+            100%{
+                opacity:0;
+                transform:translateY(-120%) scale(1.2);
+            }
+        }
+
+        /* Disable intro in recruiter mode */
+        body.recruiter #intro-smoke{display:none;}
+
+        /* ================= BACKGROUND ATMOSPHERE ================= */
+        .fog{
+            position:fixed;
+            inset:-20%;
+            pointer-events:none;
+            z-index:-2;
+            filter:blur(50px);
+        }
+        .fog.one{
+            background:radial-gradient(circle at 20% 30%,rgba(255,255,255,0.08),transparent 60%);
+            animation:fog1 30s linear infinite;
+        }
+        .fog.two{
+            background:radial-gradient(circle at 70% 60%,rgba(255,255,255,0.07),transparent 65%);
+            animation:fog2 40s linear infinite;
+        }
+        @keyframes fog1{50%{transform:translate(-80px,40px);}}
+        @keyframes fog2{50%{transform:translate(60px,-50px);}}
+
+        body.recruiter .fog{display:none;}
+
+        /* ================= SPOTLIGHT ================= */
+        #spotlight{
+            position:fixed;
+            width:340px;
+            height:340px;
+            border-radius:50%;
+            pointer-events:none;
+            background:radial-gradient(circle,rgba(0,255,127,0.1),transparent 70%);
+            mix-blend-mode:screen;
+            z-index:-1;
+        }
+        body.recruiter #spotlight{display:none;}
+
+        /* ================= NAV ================= */
+        nav{
+            position:fixed;
+            top:0;
+            width:100%;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:1rem 2rem;
+            background:rgba(0,0,0,.9);
+            border-bottom:1px solid var(--accent);
+            z-index:1000;
+        }
+        body.recruiter nav{background:#fff;}
+
+        nav ul{
+            display:flex;
+            gap:2rem;
+            list-style:none;
+        }
+        nav a{
+            color:var(--text);
+            text-decoration:none;
+            font-weight:600;
+        }
+        nav a:hover{color:var(--accent);}
+
+        .toggle{
+            cursor:pointer;
+            font-weight:700;
+            border:1px solid var(--accent);
+            padding:.4rem .8rem;
+            border-radius:20px;
+            color:var(--accent);
+        }
+
+        /* ================= HERO ================= */
+        #hero{
+            height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            text-align:center;
+        }
+        #hero h1{
+            font-family:"Courier New",monospace;
+            font-size:4rem;
+            opacity:0;
+            animation:heroReveal 1.2s ease forwards;
+            animation-delay:3.8s;
+        }
+        #typed{
+            margin-top:1rem;
+            font-family:"Courier New",monospace;
+            color:var(--accent);
+            opacity:0;
+            animation:heroReveal 1.2s ease forwards;
+            animation-delay:4.2s;
+        }
+
+        @keyframes heroReveal{
+            from{opacity:0;transform:translateY(10px);}
+            to{opacity:1;transform:none;}
+        }
+
+        body.recruiter #hero h1,
+        body.recruiter #typed{
+            opacity:1;
+            animation:none;
+        }
+
+        /* ================= SECTIONS ================= */
+        section{
+            max-width:1100px;
+            margin:auto;
+            padding:6rem 2rem;
+        }
+        h2{
+            font-size:2.5rem;
+            margin-bottom:2rem;
+            color:var(--accent);
+        }
+
+        /* About */
+        .about{
+            background:var(--panel);
+            padding:2rem;
+            border-left:4px solid var(--accent);
+        }
+        .stats{
+            display:flex;
+            gap:2rem;
+            margin-top:1.5rem;
+            flex-wrap:wrap;
+        }
+        .stat{
+            padding:1rem 1.5rem;
+            border:1px solid var(--accent);
+        }
+        .stat span{color:var(--accent);font-weight:700;}
+
+        /* Skills */
+        .skills{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+            gap:1.5rem;
+        }
+        .gadget{
+            background:var(--panel);
+            padding:1.5rem;
+            border:1px solid var(--accent);
+            transition:.3s;
+        }
+        .gadget:hover{transform:translateY(-6px);}
+        .gadget span{color:var(--accent);font-weight:700;}
+
+        /* Projects */
+        .projects{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+            gap:2rem;
+        }
+        .project{
+            background:var(--panel);
+            padding:1.8rem;
+            border-left:4px solid var(--accent);
+        }
+
+        /* Contact */
+        .contact a{
+            color:var(--accent);
+            text-decoration:none;
+            display:block;
+            margin-bottom:.6rem;
+        }
+
+        /* Footer */
+        footer{
+            text-align:center;
+            padding:2rem;
+            border-top:1px solid var(--accent);
+        }
+
+        /* Fade */
+        .fade{
+            opacity:0;
+            transform:translateY(30px);
+            transition:.6s;
+        }
+        .fade.show{opacity:1;transform:none;}
+
+        @media(max-width:768px){
+            #hero h1{font-size:2.6rem;}
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- FULL PAGE INTRO SMOKE -->
+<div id="intro-smoke"></div>
+
+<!-- Background Atmosphere -->
+<div class="fog one"></div>
+<div class="fog two"></div>
+
+<div id="spotlight"></div>
+
+<nav>
+    <ul>
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="toggle" id="modeToggle">🦇 | 💼</div>
+</nav>
+
+<section id="hero">
+    <div>
+        <h1>Ayush Raghuwanshi</h1>
+        <div id="typed"></div>
+    </div>
+</section>
+
+<section id="about" class="fade">
+    <h2>About</h2>
+    <div class="about">
+        <p>I work where clarity is low and problems are complex, focusing on reliable systems and strong problem-solving.</p>
+        <div class="stats">
+            <div class="stat"><span>CGPA:</span> 8.15</div>
+            <div class="stat"><span>Focus:</span> DSA • Web • Systems</div>
+        </div>
+    </div>
+</section>
+
+<section id="skills" class="fade">
+    <h2>Bat-Gadgets</h2>
+    <div class="skills">
+        <div class="gadget"><span>Batcomputer</span><br>DSA & Algorithms</div>
+        <div class="gadget"><span>Grapnel Gun</span><br>C++</div>
+        <div class="gadget"><span>EMP Tool</span><br>JavaScript</div>
+        <div class="gadget"><span>Armor System</span><br>HTML & CSS</div>
+    </div>
+</section>
+
+<section id="projects" class="fade">
+    <h2>Projects</h2>
+    <div class="projects">
+        <div class="project">
+            <b>Smart Attendance System (Face Recognition)</b>
+            <p><i>Problem:</i> Manual attendance is slow and error-prone.</p>
+            <p><i>Solution:</i> Automated attendance using facial recognition.</p>
+            <p><i>Impact:</i> Improved accuracy and reduced effort.</p>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="fade">
+    <h2>Contact & Profiles</h2>
+    <div class="contact">
+        <a href="mailto:arushrag1c@gmail.com">📧 arushrag1c@gmail.com</a>
+        <a href="tel:6264583235">📱 6264583235</a>
+        <a href="https://www.linkedin.com/in/ayush-raghuwanshi-61125b378" target="_blank">🔗 LinkedIn</a>
+        <a href="https://leetcode.com/u/Ayush_Raghuwanshi_leetcode/" target="_blank">🧠 LeetCode</a>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 Ayush Raghuwanshi</p>
+</footer>
+
+<script>
+    /* Typing */
+    const words=["Web Developer","DSA Enthusiast","Problem Solver"];
+    let i=0,j=0,del=false;
+    const t=document.getElementById("typed");
+    function type(){
+        let w=words[i];
+        t.textContent=del?w.slice(0,--j):w.slice(0,++j);
+        let s=del?50:90;
+        if(!del&&j===w.length){s=1500;del=true;}
+        if(del&&j===0){del=false;i=(i+1)%words.length;}
+        setTimeout(type,s);
+    }
+    type();
+
+    /* Spotlight */
+    document.addEventListener("mousemove",e=>{
+        const s=document.getElementById("spotlight");
+        s.style.left=e.clientX-170+"px";
+        s.style.top=e.clientY-170+"px";
+    });
+
+    /* Fade */
+    const obs=new IntersectionObserver(e=>{
+        e.forEach(x=>x.isIntersecting&&x.target.classList.add("show"));
+    });
+    document.querySelectorAll(".fade").forEach(el=>obs.observe(el));
+
+    /* Recruiter Toggle */
+    document.getElementById("modeToggle").onclick=()=>{
+        document.body.classList.toggle("recruiter");
+    };
+</script>
+
+</body>
+</html>
